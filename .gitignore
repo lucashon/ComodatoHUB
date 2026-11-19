@@ -1,0 +1,10 @@
+# Saídas de compilação
+target/
+
+# Banco SQLite gerado na primeira execução
+comodatohub.db
+
+# IDEs
+.idea/
+*.iml
+.vscode/

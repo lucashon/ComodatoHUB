@@ -46,7 +46,7 @@ public class MeusEmprestimosPagina extends PaginaWeb {
                 acoes = botao(url("renovar"), e.getId(), "Renovar");
             }
             linhas.add(new String[]{String.valueOf(e.getId()), esc(e.getEquipamento().getDescricao()),
-                    esc(e.getStatus()), data(e.getDataSolicitacao()), data(e.getDataPrevistaDevolucao()),
+                    situacao(e.getStatus()), data(e.getDataSolicitacao()), data(e.getDataPrevistaDevolucao()),
                     String.valueOf(e.getRenovacoes()), observacao(e), acoes});
         }
         return "<p>Limite do seu perfil: " + r.getUsuario().getLimiteEmprestimos() + " empréstimo(s) ao mesmo tempo.</p>"

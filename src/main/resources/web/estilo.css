@@ -20,12 +20,15 @@ header {
     border-bottom: 1px solid #ccc;
 }
 
+header strong { font-size: 17px; }
+
 nav a {
     margin-right: 14px;
     color: #222;
     text-decoration: none;
 }
 
+nav a:hover { text-decoration: underline; }
 nav a.ativo { font-weight: bold; text-decoration: underline; }
 
 a { color: #1a4f8b; }
@@ -38,6 +41,7 @@ main {
 
 h1 { font-size: 22px; }
 h2 { font-size: 17px; margin-top: 0; }
+h3 { font-size: 15px; margin: 0 0 8px; }
 
 .tabela { overflow-x: auto; }
 
@@ -48,7 +52,7 @@ table {
 }
 
 th, td {
-    padding: 6px 8px;
+    padding: 7px 9px;
     border: 1px solid #ccc;
     text-align: left;
     vertical-align: middle;
@@ -85,6 +89,8 @@ input, select {
     border: 1px solid #ccc;
 }
 
+.caixa ul { margin: 0; padding-left: 20px; }
+
 .form { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
 .form label, .login label { display: flex; flex-direction: column; gap: 3px; }
 
@@ -92,9 +98,30 @@ input, select {
 .msg  { background: #eef7ee; border-color: #8bbd8b; }
 .erro { background: #f9eeee; border-color: #c98b8b; }
 
+/* Situação de equipamentos e empréstimos */
+.situacao { font-weight: bold; }
+.s-disponivel, .s-devolvido { color: #2e7d32; }
+.s-reservado, .s-solicitado { color: #a06000; }
+.s-emprestado, .s-ativo     { color: #1a4f8b; }
+.s-manutencao, .s-atrasado  { color: #b3261e; }
+.s-baixado, .s-cancelado    { color: #777; }
+
+/* Painel "Gerenciar" da página de equipamentos */
+.gerenciar h2 { display: flex; justify-content: space-between; gap: 10px; }
+.gerenciar .fechar { font-size: 14px; font-weight: normal; }
+
+.bloco {
+    padding: 12px 0;
+    border-top: 1px solid #ddd;
+}
+
+.bloco p { margin: 0 0 8px; }
+.nota { color: #666; font-size: 14px; }
+
+/* Login */
 .login {
-    max-width: 320px;
-    margin: 80px auto;
+    max-width: 340px;
+    margin: 80px auto 20px;
     padding: 24px;
     background: #fff;
     border: 1px solid #ccc;
@@ -103,3 +130,23 @@ input, select {
 .login form { display: flex; flex-direction: column; gap: 12px; }
 .login h1 { margin: 0; }
 .login p { margin: 4px 0 16px; color: #555; }
+
+.equipe {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid #ddd;
+    font-size: 13px;
+    color: #555;
+}
+
+.equipe ul { margin: 6px 0 0; padding-left: 18px; }
+
+footer {
+    width: calc(100% - 32px);
+    max-width: 1118px;
+    margin: 30px auto 20px;
+    padding-top: 12px;
+    border-top: 1px solid #ccc;
+    font-size: 13px;
+    color: #666;
+}

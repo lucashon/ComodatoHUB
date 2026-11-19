@@ -95,7 +95,7 @@ public class EmprestimosPagina extends PaginaWeb {
         List<String[]> linhas = new ArrayList<>();
         for (Emprestimo e : buscar(r)) {
             linhas.add(new String[]{String.valueOf(e.getId()), esc(e.getUsuario().getNome()),
-                    esc(e.getEquipamento().getDescricao()), esc(e.getStatus()),
+                    esc(e.getEquipamento().getDescricao()), situacao(e.getStatus()),
                     data(e.getDataPrevistaDevolucao()), observacao(e), acoes(e)});
         }
         return topo(r) + tabela(new String[]{"Nº", "Usuário", "Equipamento", "Situação", "Devolver até",

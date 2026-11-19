@@ -29,9 +29,36 @@ public final class Html {
     }
 
     public static String observacao(Emprestimo e) {
-        if (e.estaAtrasado()) return "<b>ATRASADO</b>";
+        if (e.estaAtrasado()) return "<span class=\"situacao s-atrasado\">Atrasado</span>";
         if (e.getOcorrencia() != null) return "Devolvido: " + esc(e.getOcorrencia());
         return "";
+    }
+
+    /** Equipe do projeto: {nome, função}. Aparece no login e no rodapé. */
+    private static final String[][] EQUIPE = {
+            {"Amanda Cauponi", "Analista de Business Intelligence"},
+            {"Luan Honório", "Engenheiro de Dados"},
+            {"Lucas Honório", "Engenheiro de Software"}
+    };
+
+    /** Situação de um equipamento ou empréstimo em texto legível (ex.: DISPONIVEL vira "Disponível"). */
+    public static String situacao(Object status) {
+        if (status == null) return "";
+        String codigo = status.toString();
+        String texto;
+        switch (codigo) {
+            case "DISPONIVEL": texto = "Disponível"; break;
+            case "RESERVADO":  texto = "Reservado"; break;
+            case "EMPRESTADO": texto = "Emprestado"; break;
+            case "MANUTENCAO": texto = "Em manutenção"; break;
+            case "BAIXADO":    texto = "Baixado"; break;
+            case "SOLICITADO": texto = "Aguardando retirada"; break;
+            case "ATIVO":      texto = "Ativo"; break;
+            case "DEVOLVIDO":  texto = "Devolvido"; break;
+            case "CANCELADO":  texto = "Cancelado"; break;
+            default:           texto = codigo;
+        }
+        return "<span class=\"situacao s-" + esc(codigo.toLowerCase()) + "\">" + esc(texto) + "</span>";
     }
 
     /** Página completa com cabeçalho, menu e mensagens. */
@@ -48,17 +75,31 @@ public final class Html {
                 + "<span>" + esc(usuario.getNome()) + " (" + esc(usuario.getPerfil()) + ") "
                 + "<a href=\"/sair\">Sair</a></span></header>"
                 + "<main><h1>" + esc(atual.titulo()) + "</h1>"
-                + mensagens(msg, erro) + corpo + "</main></body></html>";
+                + mensagens(msg, erro) + corpo + "</main>" + rodape() + "</body></html>";
     }
 
     public static String paginaLogin(String erro) {
+        StringBuilder equipe = new StringBuilder();
+        for (String[] membro : EQUIPE) {
+            equipe.append("<li>").append(esc(membro[0])).append(" - ").append(esc(membro[1])).append("</li>");
+        }
         return inicio("Login")
                 + "<div class=\"login\"><h1>ComodatoHub</h1><p>Empréstimo de equipamentos</p>"
                 + mensagens(null, erro)
                 + "<form method=\"post\" action=\"/login\">"
                 + "<label>E-mail<input name=\"email\" type=\"email\" required autofocus></label>"
                 + "<label>Senha<input name=\"senha\" type=\"password\" required></label>"
-                + "<button type=\"submit\">Entrar</button></form></div></body></html>";
+                + "<button type=\"submit\">Entrar</button></form>"
+                + "<div class=\"equipe\"><b>Equipe</b><ul>" + equipe + "</ul></div></div></body></html>";
+    }
+
+    private static String rodape() {
+        StringBuilder sb = new StringBuilder("<footer>ComodatoHub - POO - IFAL<br>");
+        for (int i = 0; i < EQUIPE.length; i++) {
+            if (i > 0) sb.append(" | ");
+            sb.append(esc(EQUIPE[i][0])).append(" (").append(esc(EQUIPE[i][1])).append(")");
+        }
+        return sb.append("</footer>").toString();
     }
 
     private static String inicio(String titulo) {
