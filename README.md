@@ -21,7 +21,7 @@ Projeto da disciplina **Programação Orientada a Objetos (PROO)** · IFAL · Pr
 
 ## Sumário
 
-1. [Início rápido (para quem já tem Java)](#início-rápido)
+1. [Início rápido (para quem já tem Java e Maven)](#início-rápido)
 2. [Passo a passo do zero (nunca instalei Java)](#passo-a-passo-do-zero)
 3. [Usando o sistema](#usando-o-sistema)
 4. [Problemas comuns](#problemas-comuns)
@@ -33,22 +33,19 @@ Projeto da disciplina **Programação Orientada a Objetos (PROO)** · IFAL · Pr
 
 ## Início rápido
 
-Já tem o **JDK 17 ou mais novo**? Abra um terminal na pasta do projeto e rode:
+Já tem o **JDK 17 ou mais novo** e o **Maven**? Abra um terminal na pasta do projeto e rode:
 
-| Sistema | Comando |
-|---|---|
-| Linux / macOS | `./mvnw compile exec:java` |
-| Windows | `mvnw.cmd compile exec:java` |
+```bash
+mvn compile exec:java
+```
 
-Depois abra **http://localhost:8080** no navegador. 
-
-> Você **não precisa instalar o Maven**. Os arquivos `mvnw` / `mvnw.cmd` baixam tudo sozinhos na primeira execução (por isso ela demora um pouco mais).
+Depois abra **http://localhost:8080** no navegador.
 
 ---
 
 ## Passo a passo do zero
 
-Siga estes 4 passos se você nunca instalou Java na máquina.
+Siga estes 5 passos se você nunca instalou Java na máquina.
 
 ### Passo 1: Instale o Java (JDK)
 
@@ -98,17 +95,56 @@ Ou baixe o instalador `.pkg` em **https://adoptium.net**.
 
 </details>
 
-### Passo 2: Confirme que deu certo
+### Passo 2: Instale o Maven
+
+O Maven baixa as bibliotecas do projeto (SQLite, JUnit) e compila tudo. Se for usar o IntelliJ ou o VS Code, pode pular este passo: eles já trazem o Maven embutido (veja [Prefere usar uma IDE?](#prefere-usar-uma-ide)).
+
+<details>
+<summary><b>Windows</b></summary>
+
+1. Acesse **https://maven.apache.org/download.cgi** e baixe o arquivo **Binary zip archive** (`apache-maven-x.x.x-bin.zip`).
+2. Extraia para uma pasta fixa, por exemplo `C:\maven`.
+3. No menu Iniciar, procure **"Editar as variáveis de ambiente do sistema"** → **Variáveis de Ambiente**.
+4. Em *Variáveis do usuário*, selecione **Path** → **Editar** → **Novo** e adicione `C:\maven\bin` (ajuste se a pasta tiver outro nome).
+5. Clique em **OK** em todas as janelas e **abra um terminal novo**.
+
+</details>
+
+<details>
+<summary><b>Linux (Ubuntu, Debian, Mint)</b></summary>
+
+```bash
+sudo apt install maven
+```
+
+Sem senha de administrador, com o SDKMAN do passo anterior:
+```bash
+sdk install maven
+```
+
+</details>
+
+<details>
+<summary><b>macOS</b></summary>
+
+```bash
+brew install maven
+```
+
+</details>
+
+### Passo 3: Confirme que deu certo
 
 Abra um terminal **novo** e digite:
 
 ```bash
 javac -version
+mvn -v
 ```
 
-Deve aparecer algo como `javac 21.0.5`. Se aparecer *"comando não encontrado"*, veja [Problemas comuns](#problemas-comuns).
+O primeiro deve mostrar algo como `javac 21.0.5` e o segundo `Apache Maven 3.9.x`. Se aparecer *"comando não encontrado"*, veja [Problemas comuns](#problemas-comuns).
 
-### Passo 3: Baixe o projeto
+### Passo 4: Baixe o projeto
 
 Com Git:
 ```bash
@@ -119,13 +155,15 @@ Ou baixe o `.zip`, extraia e abra um terminal **dentro da pasta extraída** (a q
 
 > No Windows: abra a pasta no Explorador de Arquivos, clique na barra de endereço, digite `cmd` e aperte Enter.
 
-### Passo 4: Rode o sistema
+### Passo 5: Rode o sistema
 
-| O que você quer | Linux / macOS | Windows |
-|---|---|---|
-| **Versão web** (recomendado) | `./mvnw compile exec:java` | `mvnw.cmd compile exec:java` |
-| Versão console (texto) | `./mvnw compile exec:java -Dexec.mainClass=br.edu.ifal.comodatohub.Main` | `mvnw.cmd compile exec:java "-Dexec.mainClass=br.edu.ifal.comodatohub.Main"` |
-| Testes unitários | `./mvnw test` | `mvnw.cmd test` |
+| O que você quer | Comando |
+|---|---|
+| **Versão web** (recomendado) | `mvn compile exec:java` |
+| Versão console (texto) | `mvn compile exec:java "-Dexec.mainClass=br.edu.ifal.comodatohub.Main"` |
+| Testes unitários | `mvn test` |
+
+Os comandos são os mesmos no Windows, Linux e macOS. A primeira execução demora um pouco mais porque o Maven baixa as dependências (precisa de internet).
 
 Quando aparecer `ComodatoHub rodando!`, o navegador abre sozinho em **http://localhost:8080**. Se não abrir, digite o endereço. Para encerrar, aperte **Ctrl + C** no terminal.
 
@@ -189,10 +227,10 @@ Criados automaticamente na primeira execução, junto com 2 setores e 5 equipame
 | `release version 17 not supported` | Só o **JRE** está instalado, falta o JDK | Instale o JDK ([Passo 1](#passo-1-instale-o-java-jdk)). No Ubuntu: `sudo apt install openjdk-21-jdk` |
 | `javac: command not found` / `'java' não é reconhecido` | Java não instalado ou terminal antigo | Instale o JDK e **abra um terminal novo** |
 | `JAVA_HOME not found` / `JAVA_HOME is not defined correctly` | Variável não configurada | Windows: reinstale marcando *Set JAVA_HOME*. Linux/macOS: `export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))` |
-| `./mvnw: Permission denied` | Script sem permissão de execução | `chmod +x mvnw` |
+| `mvn: command not found` / `'mvn' não é reconhecido` | Maven não instalado ou fora do PATH | Veja o [Passo 2](#passo-2-instale-o-maven) e abra um terminal novo |
 | `Não foi possível usar a porta 8080` | O sistema já está aberto em outro terminal ou IDE | Feche a outra execução (Ctrl + C ou Stop) |
 | Dados estranhos ou quero começar de novo | Banco antigo | Apague o arquivo `comodatohub.db` e rode de novo |
-| Primeira execução demora | O wrapper está baixando o Maven e as dependências | Normal, só acontece uma vez (precisa de internet) |
+| Primeira execução demora | O Maven está baixando as dependências | Normal, só acontece uma vez (precisa de internet) |
 
 ---
 
@@ -216,7 +254,6 @@ src/main/java/br/edu/ifal/comodatohub/
 src/main/resources/web/estilo.css   visual das páginas web
 src/test/java/...                   testes unitários (JUnit 5) de BO, DAO e polimorfismo
 docs/script-banco.sql               estrutura das tabelas (referência)
-mvnw, mvnw.cmd, .mvn/               Maven Wrapper (dispensa instalar o Maven)
 ```
 
 ---
